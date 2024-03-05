@@ -3,38 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Data with Fetch API</title>
+    <title>Get Query Response</title>
 </head>
 <body>
 
-<h1>Send Data with Fetch API</h1>
-
 <script>
-    // Function to handle the button click event
-    function sendData() {
-        // Get the data from an input field or any other source
-        const inputData = document.getElementById('dataInput').value;
+    // Function to extract query parameters from the URL
+    function getQueryParameter(name) {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        return urlSearchParams.get(name);
+    }
 
-        // Build the URL with the data as a query parameter
-        const url = `http://example.com/your-api-endpoint?data=${encodeURIComponent(inputData)}`;
+    // Get the 'text' parameter from the query
+    const textQueryParam = getQueryParameter('text');
 
-        // Make a GET request using the Fetch API
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response data here
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle errors here
-                console.error('Error:', error);
-            });
+    // Display the text in the HTML body
+    document.body.innerHTML = '<h1>Response:</h1>';
+    
+    if (textQueryParam) {
+        // If 'text' parameter is provided, display it
+        document.body.innerHTML += `<p>${textQueryParam}</p>`;
+    } else {
+        // If 'text' parameter is not provided, display a default message
+        document.body.innerHTML += '<p>Please provide a "text" parameter in the query.</p>';
     }
 </script>
-
-<!-- Input field and button to trigger the data sending -->
-<input type="text" id="dataInput" placeholder="Enter data">
-<button onclick="sendData()">Send Data</button>
 
 </body>
 </html>
